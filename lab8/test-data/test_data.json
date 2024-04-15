@@ -1,0 +1,110 @@
+{
+    "valid": {
+        "category_id": 5,
+        "title": "qwertysdsafas",
+        "content": "dvsfsahfa",
+        "price": 300,
+        "old_price": 150,
+        "status": 0,
+        "keywords": "bucks",
+        "description": "assafasgaeqw",
+        "hit": 1
+    },
+    "valid_with_lower_bound": {
+        "category_id": 1,
+        "title": "qwertysdsafas",
+        "content": "dvsfsahfa",
+        "price": 300,
+        "old_price": 150,
+        "status": 0,
+        "keywords": "bucks",
+        "description": "assafasgaeqw",
+        "hit": 0
+    },
+    "valid_with_higher_bound": {
+        "category_id": 15,
+        "title": "qwertysdsafas",
+        "content": "dvsfsahfa",
+        "price": 300,
+        "old_price": 150,
+        "status": 1,
+        "keywords": "bucks",
+        "description": "assafasgaeqw",
+        "hit": 1
+    },
+    "valid_with_alias": {
+        "category_id": 7,
+        "title": "Вот так вот",
+        "alias": "Vot tak vot",
+        "content": "dvsfsahfa",
+        "price": 300,
+        "old_price": 150,
+        "status": 1,
+        "keywords": "bucks",
+        "description": "assafasgaeqw",
+        "hit": 1
+    },
+    "valid_with_negative_price": {
+        "category_id": 7,
+        "title": "Вот так вот",
+        "alias": "Vot tak vot",
+        "content": "dvsfsahfa",
+        "price": -300,
+        "old_price": -150,
+        "status": 1,
+        "keywords": "bucks",
+        "description": "assafasgaeqw",
+        "hit": 1
+    },
+    "null" : {},
+    "invalid_category_id": {
+        "category_id": -1,
+        "title": "Вот так вот",
+        "alias": "Vot tak vot",
+        "content": "dvsfsahfa",
+        "price": -300,
+        "old_price": -150,
+        "status": 1,
+        "keywords": "bucks",
+        "description": "assafasgaeqw",
+        "hit": 1
+    },
+    "invalid_price": {
+        "category_id": 1,
+        "title": "Вот так вот",
+        "alias": "Vot tak vot",
+        "content": "dvsfsahfa",
+        "price": "adsaf",
+        "old_price": -150,
+        "status": 1,
+        "keywords": "bucks",
+        "description": "assafasgaeqw",
+        "hit": 1
+    },
+    "invalid_status": {
+        "category_id": 1,
+        "title": "Вот так вот",
+        "alias": "Vot tak vot",
+        "content": "dvsfsahfa",
+        "price": "adsaf",
+        "old_price": -150,
+        "status": 2,
+        "keywords": "bucks",
+        "description": "assafasgaeqw",
+        "hit": 1
+    },
+
+    "invalid_hit": {
+        "category_id": 1,
+        "title": "Вот так вот",
+        "alias": "Vot tak vot",
+        "content": "dvsfsahfa",
+        "price": "adsaf",
+        "old_price": -150,
+        "status": 2,
+        "keywords": "bucks",
+        "description": "assafasgaeqw",
+        "hit": 4
+    }
+    
+}
