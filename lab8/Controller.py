@@ -26,24 +26,8 @@ class Controller:
 
 def main():
     controller = Controller()
-    all = controller.delete(100002324)
-    # for t in all:
-    # print(controller.delete('25719'))
+    all = controller.get_all()
     print(all)
-    # try:
-        # jsonschema.validate(all, c)
-    # except jsonschema.exceptions.ValidationError as error:
-        # print(error)
-    # test_data_file = open('test-data/test_data.json')
-    # products_schema_file = open('conf/products_schema.json')
-    # product_schema_file = open('conf/add_update_product_schema.json')
-    # _test_data = json.load(test_data_file)
-    # _products_schema = json.load(products_schema_file)
-    # _product_schema = json.load(product_schema_file)
-    # print(_product_schema)
-    # print(_test_data)
-    # print(_products_schema)
-
 
 if __name__ == '__main__':
-    main()    
+    main()

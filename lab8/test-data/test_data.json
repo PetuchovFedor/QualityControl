@@ -22,6 +22,17 @@
         "hit": 0
     },
     "valid_with_higher_bound": {
+        "category_id": 14,
+        "title": "qwertysdsafas",
+        "content": "dvsfsahfa",
+        "price": 300,
+        "old_price": 150,
+        "status": 1,
+        "keywords": "bucks",
+        "description": "assafasgaeqw",
+        "hit": 1
+    },
+    "valid_with_category_id_15": {
         "category_id": 15,
         "title": "qwertysdsafas",
         "content": "dvsfsahfa",

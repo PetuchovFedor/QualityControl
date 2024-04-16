@@ -3,7 +3,7 @@ from Controller import Controller
 import unittest
 import jsonschema
 import json
-import os
+from parameterized import parameterized
 
 class TestController(unittest.TestCase):
     def setUp(self):
@@ -24,78 +24,44 @@ class TestController(unittest.TestCase):
         items = self._controller.get_all()
         self.assertTrue(self._check_valid_json(items, self._products_schema), 'error with products')
 
-    def test_add_valid_product(self):
-        item = self._test_data['valid']
-        self.assertTrue(self._check_valid_json(item, self._product_schema), 'error with add valid product')
+    @parameterized.expand([
+        ['valid'],
+        ['valid_with_lower_bound'],
+        ['valid_with_higher_bound'],
+        ['valid_with_negative_price'],
+        ['valid_with_alias'],
+    ])
+
+    def test_add_valid_product(self, name):
+        item = self._test_data[name]
+        self.assertTrue(self._check_valid_json(item, self._product_schema), f'error with add {name} product')
         response = self._controller.create(item)
         item['id'] = response['id']
         self._tmp_products.append(item)    
         self.assertTrue(self._check_availability_by_id(item['id']), msg='error with adding item to list')  
         self.assertEqual(response['status'], 1, 'error with response status')
-
-    def test_add_valid_product_with_lower_bound(self):
-        item = self._test_data['valid_with_lower_bound']
-        self.assertTrue(self._check_valid_json(item, self._product_schema), 'error with add valid_with_lower_bound product')
+        if name == 'valid_with_alias':
+            self.assertTrue('-0' in self._get_by_id(item['id'])['alias'], msg='error with alias')                  
+    
+    def test_add_valid_product_with_category_id_15(self):        
+        item = self._test_data['valid_with_category_id_15']
+        self.assertTrue(self._check_valid_json(item, self._product_schema), 'error with add valid_with_category_id_15 product')
         response = self._controller.create(item)
         item['id'] = response['id']
-        self._tmp_products.append(item)     
-        self.assertTrue(self._check_availability_by_id(item['id']), msg='error with adding item to list')     
+        self.assertFalse(self._check_availability_by_id(item['id']), msg='error with adding item to list')            
         self.assertEqual(response['status'], 1, 'error with response status')
-    
-    def test_add_valid_product_with_higher_bound(self):
-        item = self._test_data['valid_with_higher_bound']
-        self.assertTrue(self._check_valid_json(item, self._product_schema), 'error with add valid_with_higher_bound product')
-        response = self._controller.create(item)
-        item['id'] = response['id']
-        self._tmp_products.append(item) 
-        self.assertEqual(response['status'], 1, 'error with response status')
-    
-    def test_add_valid_product_with_alias(self):
-        item = self._test_data['valid_with_alias']
-        self.assertTrue(self._check_valid_json(item, self._product_schema), 'error with add valid_with_alias product')
-        response = self._controller.create(item)
-        item['id'] = response['id']
-        self._tmp_products.append(item)
-        self.assertTrue(self._check_availability_by_id(item['id']), msg='error with adding item to list')            
-        self.assertEqual(response['status'], 1, 'error with response status')       
-    
-    def test_add_valid_product_with_negative_price(self):
-        item = self._test_data['valid_with_negative_price']
-        self.assertTrue(self._check_valid_json(item, self._product_schema), 'error with add valid_with_negative_price product')
-        response = self._controller.create(item)
-        item['id'] = response['id']
-        self._tmp_products.append(item)
-        self.assertTrue(self._check_availability_by_id(item['id']), msg='error with adding item to list')    
-        self.assertEqual(response['status'], 1, 'error with response status')  
 
-    def test_add_null_product(self):
-        item = self._test_data['null']
+    @parameterized.expand([
+        ['null'],
+        ['invalid_category_id'],
+        ['invalid_price'],
+        ['invalid_status'],
+        ['invalid_hit'],
+    ])
+    def test_invalid_product(self, name):
+        item = self._test_data[name]
         self.assertFalse(self._check_valid_json(item, self._product_schema), 'error with add invalid product')
         response = self._controller.create(item)  
-        self.assertEqual(response, None, 'error with response status') 
-    
-    def test_add_product_with_invalid_category_id(self):
-        item = self._test_data['invalid_category_id']
-        self.assertFalse(self._check_valid_json(item, self._product_schema), 'error with add invalid product')
-        response = self._controller.create(item) 
-        self.assertEqual(response, None, 'error with response status') 
-    
-    def test_add_product_with_invalid_price(self):
-        item = self._test_data['invalid_price']
-        self.assertFalse(self._check_valid_json(item, self._product_schema), 'error with not add invalid product')
-        response = self._controller.create(item)  
-        self.assertEqual(response, None, 'error with response status') 
-
-    def test_add_product_with_invalid_status(self):
-        item = self._test_data['invalid_status']
-        self.assertFalse(self._check_valid_json(item, self._product_schema), 'error with not add invalid product')
-        response = self._controller.create(item)            
-        self.assertEqual(response, None, 'error with response status') 
-    
-    def test_add_product_with_invalid_hit(self):
-        item = self._test_data['invalid_status']
-        self.assertFalse(self._check_valid_json(item, self._product_schema), 'error with not add invalid product')
-        response = self._controller.create(item)         
         self.assertEqual(response, None, 'error with response status') 
 
     def test_success_edit_product(self):
@@ -105,9 +71,10 @@ class TestController(unittest.TestCase):
         self._tmp_products.append(item)
         item['content'] = '124sdsafasf'
         item['keywords'] = '3000'
-        item['price'] = 142
+        item['price'] = 142        
         response = self._controller.edit(item)
         tmp = self._get_by_id(item['id'])
+        self.assertTrue(self._check_valid_json(item, self._product_schema), msg='error with success edit')
         self.assertEqual(item['content'], tmp['content'], msg='error with editing')
         self.assertEqual(item['keywords'], tmp['keywords'], msg='error with editing')
         self.assertEqual(str(item['price']), str(tmp['price']), msg='error with editing')
@@ -121,6 +88,7 @@ class TestController(unittest.TestCase):
         item['keywords'] = '3000'
         item['price'] = 'asdsaf'
         response = self._controller.edit(item)
+        self.assertFalse(self._check_valid_json(item, self._product_schema), msg='error with edit invalid values')
         self.assertEqual(response, None, 'error with response status') 
 
     def test_delete_existing_product(self):
@@ -132,6 +100,7 @@ class TestController(unittest.TestCase):
         self.assertFalse(self._check_availability_by_id(item['id']), msg='error with delete')
     
     def test_delete_non_existing_product(self):
+        self.assertFalse(self._check_availability_by_id(89421984721), msg='error with delete')
         self._controller.delete(89421984721)
         self.assertFalse(self._check_availability_by_id(89421984721), msg='error with delete')
 
@@ -139,9 +108,8 @@ class TestController(unittest.TestCase):
         try:
             jsonschema.validate(json, schema)
         except jsonschema.exceptions.ValidationError as error:
-            # print(error)
             return False    
-        return True
+        return True       
     
     def _check_availability_by_id(self, id):
         all = self._controller.get_all()
