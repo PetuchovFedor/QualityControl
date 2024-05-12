@@ -1,0 +1,23 @@
+{
+    "valid": {
+        "login": "zxcvbnasfaag",
+        "password": "safsaf",
+        "name": "gassagsa",
+        "email": "zxcvbnasfaag@mail.ru",
+        "address": "gfecjceij"
+    },
+    "with_busy_email": {
+        "login": "dsgsdgdsgds",
+        "password": "safasdshdshfawqw",
+        "name": "sdhdsh543",
+        "email": "petuchov.fedya.a.eto.ya@gmail.com",
+        "address": "dghsdh434"
+    },
+    "with_busy_login": {
+        "login": "Fedor",
+        "password": "safasdshdshfawqw",
+        "name": "sdhdsh543",
+        "email": "fsagsagas@gmail.com",
+        "address": "dghsdh434"
+    }
+}
